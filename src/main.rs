@@ -81,6 +81,9 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Router ────────────────────────────────────────────────────────────────
     let app = Router::new()
+        .route("/socket.io/socket.io.js", get(|| async {
+            ([(axum::http::header::CONTENT_TYPE, "application/javascript")], include_str!("socket.io.js"))
+        }))
         .route("/api/health",                    get(routes::health::health))
         .route("/api/db-test",                   get(routes::health::db_test))
         .route("/api/db-schema",                 get(routes::health::db_schema))
