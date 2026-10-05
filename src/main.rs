@@ -42,11 +42,11 @@ async fn main() -> anyhow::Result<()> {
     let state = AppState::new(db.clone());
 
     // ── Socket.io ────────────────────────────────────────────────────────────
-    let (socket_layer, io) = SocketIo::builder()
+    let (socket_svc, io) = SocketIo::builder()
         .ping_interval(Duration::from_secs(5))
         .ping_timeout(Duration::from_secs(2))
         .max_payload(5 * 1024 * 1024)
-        .build_layer();
+        .build_svc();
 
     let io = Arc::new(io);
 
@@ -108,9 +108,9 @@ async fn main() -> anyhow::Result<()> {
         .route("/api/messages/:uid",             get(routes::messages::history))
         .route("/api/calls/initiate",            axum::routing::post(routes::calls::initiate))
         .route("/",                              get(routes::health::root))
+        .fallback_service(socket_svc)
         .with_state(state)
-        .layer(cors)
-        .layer(socket_layer);
+        .layer(cors);
 
     let port     = std::env::var("PORT").unwrap_or_else(|_| "3000".to_string());
     let addr     = format!("0.0.0.0:{}", port);
