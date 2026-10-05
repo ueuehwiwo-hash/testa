@@ -1,5 +1,5 @@
 # ── Builder stage ─────────────────────────────────────────────────────────────
-FROM rust:1.80-slim-bookworm AS builder
+FROM rust:slim-bookworm AS builder
 
 # Install only what's needed for native-tls / OpenSSL
 RUN apt-get update && apt-get install -y --no-install-recommends \
