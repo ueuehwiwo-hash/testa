@@ -1,0 +1,77 @@
+[package]
+name = "randerx"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "randerx"
+path = "src/main.rs"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Web framework
+axum = { version = "0.7", features = ["json", "multipart", "macros"] }
+axum-extra = { version = "0.9", features = ["typed-header"] }
+tower = { version = "0.4", features = ["full"] }
+tower-http = { version = "0.5", features = ["cors", "trace", "timeout", "limit"] }
+
+# Socket.io server (compatible with socket.io JS client v4)
+socketioxide = { version = "0.14", features = ["state"] }
+
+# HTTP client (for captcha proxy, keep-alive ping)
+reqwest = { version = "0.12", features = ["json", "stream", "rustls-tls"], default-features = false }
+
+# Database — custom Turso HTTP client using reqwest (no C compiler, no libsql-ffi)
+
+# Auth
+jsonwebtoken = "9"
+bcrypt = "0.15"
+
+# Crypto
+aes-gcm = "0.10"
+sha2 = "0.10"
+sha1 = "0.10"
+hmac = "0.12"
+hex = "0.4"
+rand = "0.8"
+base64 = "0.22"
+uuid = { version = "1", features = ["v4"] }
+
+# Email (SMTP)
+lettre = { version = "0.11", features = ["tokio1", "tokio1-native-tls", "smtp-transport", "builder"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Config / env
+dotenvy = "0.15"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Error handling
+thiserror = "1"
+anyhow = "1"
+
+# Async utilities
+dashmap = "6"
+once_cell = "1"
+tokio-util = { version = "0.7", features = ["io"] }
+futures = "0.3"
+bytes = "1"
+
+# Pattern matching
+regex = "1"
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"

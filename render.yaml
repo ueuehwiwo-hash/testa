@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: randerx-rust
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: TURSO_DB_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: TURN_SECRET
+        sync: false
+      - key: TURN_HOST
+        sync: false
+      - key: TURN_TTL
+        value: "3600"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: PROXY_HOST
+        sync: false
+      - key: PROXY_PORT
+        sync: false
+      - key: PROXY_USER
+        sync: false
+      - key: PROXY_PASS
+        sync: false
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: ADMIN_SECRET
+        sync: false
+      - key: RENDER_EXTERNAL_URL
+        sync: false
+      - key: PORT
+        value: "3000"
+      - key: RUST_LOG
+        value: "randerx=info,tower_http=warn"
